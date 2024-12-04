@@ -26,21 +26,22 @@ function getStyles(
 
 const Item = (props: any) => {
 
-  // const itemRef = useRef(null);
+  
   const [edit, setEdit] = useRecoilState(editState);
 
-  const { id, title, left, top } = props;
+  
+  const { id, name, dpt, floor, left, top} = props;
 
   const [{ isDragging }, drag, preview]: any = useDrag(
     () => ({
       type: "item",
       canDrag: edit,
-      item: { id, left, top, title },
+      item: { id, name, dpt, floor, left, top},
       collect: (monitor) => ({
         isDragging: monitor.isDragging(),
       }),
     }),
-    [id, left, top, title, edit],
+    [id, name, dpt, floor, left, top, edit],
   );
 
 
@@ -64,7 +65,7 @@ const Item = (props: any) => {
       }
 
     >
-      <Box title={title} />
+      <Box name={name} />
 
       {
         isOpen ?

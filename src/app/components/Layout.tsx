@@ -29,10 +29,7 @@ const Layout = () => {
         if (!canvasRef) return;
         if (canvasRef.current) {
 
-            // const canvas = canvasEl.current;
             const ctx: any = (canvasRef.current as HTMLCanvasElement).getContext('2d');
-
-            // const ctx: any = canvasRef.current.getContext("2d");
             const image: any = new Image();
 
             image.src = floor;
@@ -42,13 +39,14 @@ const Layout = () => {
             };
 
         }
-        
+
 
     }, [floor]);
 
 
+
     const moveBox = useCallback(
-        (id: string, left: number, top: number) => {
+        (id: number, left: number, top: number) => {
             setSeats(
                 update(seats, {
                     [id]: {
@@ -98,14 +96,11 @@ const Layout = () => {
                 })
             }
 
-
             <canvas
                 className=""
                 ref={canvasRef}
             >
             </canvas>
-            
-
 
 
         </div>

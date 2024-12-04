@@ -29,24 +29,23 @@ const TopBar = () => {
 
     const onSubmit = (data: any) => {
 
-        const newAddInfo: any = {
+        const newAddInfo = {
             uuid: uuidv4(), top: 500, left: 500, name: data.name, floor: data.floor, dpt: data.dpt
         };
 
-       const newSeatArray: any = [...seats];
+       const newSeatArray = [...seats];
        newSeatArray.push(newAddInfo);
 
        setSeats(newSeatArray);
        reset();
        setIsOpen(false);
-
     };
-
-
 
     const handleChangeSelect = (e: any) => {
         setFloor(e.target.value);
     };
+
+
 
 
 

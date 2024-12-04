@@ -46,7 +46,7 @@ const DragLayer = () => {
     function renderItem() {
         switch (itemType) {
             case "item":
-                return <BoxDragPreview title={item.title} />
+                return <BoxDragPreview name={item.name} />
             default:
                 return null
         }
