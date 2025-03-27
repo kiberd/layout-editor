@@ -1,12 +1,13 @@
 "use client"
-import React, { useState } from 'react';
-import { useDrag, useDragDropManager } from 'react-dnd';
-import { useEffect, useRef } from 'react';
+import { useDrag } from 'react-dnd';
+import { useEffect } from 'react';
 import { getEmptyImage } from 'react-dnd-html5-backend'
 import Box from './Box';
 import { useRecoilState } from 'recoil';
 import { editState } from '../atom/editState';
-import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
+import { editModalState } from '../atom/editModalState';
+import { editTargetDateState } from '../atom/editTargetDateState';
+
 
 function getStyles(
   left: number,
@@ -28,8 +29,13 @@ const Item = (props: any) => {
 
   
   const [edit, setEdit] = useRecoilState(editState);
+  const [isOpen, setIsOpen]: any = useRecoilState(editModalState);
+  const [targetData, setTargetData] = useRecoilState(editTargetDateState);
 
-  
+  useEffect(() => {
+    setTargetData(props);
+  } ,[]);
+
   const { id, name, dpt, floor, left, top} = props;
 
   const [{ isDragging }, drag, preview]: any = useDrag(
@@ -51,49 +57,20 @@ const Item = (props: any) => {
   }, []);
 
 
-  const [isOpen, setIsOpen] = useState(false);
+  const handleClick = () => {
+    setTargetData(props);
+    setIsOpen(true);
+  }
+
 
   return (
     <div
       ref={drag}
       style={getStyles(left, top, isDragging)}
-      onContextMenu={
-        (e) => {
-          e.preventDefault();
-          setIsOpen(!isOpen);
-        }
-      }
+      onClick={handleClick}
 
     >
       <Box name={name} />
-
-      {
-        isOpen ?
-        <div>
-        <Menu>
-          <MenuButton className="inline-flex items-center gap-2 rounded-md bg-gray-800 py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-gray-700 data-[open]:bg-gray-700 data-[focus]:outline-1 data-[focus]:outline-white">Modify User</MenuButton>
-          
-          
-          
-          <MenuItems anchor="bottom" >
-            <MenuItem>
-            
-            <button className="m-2 inline-flex items-center gap-2 rounded-md bg-gray-800 py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-gray-700 data-[open]:bg-gray-700 data-[focus]:outline-1 data-[focus]:outline-white">
-                Edit
-              </button>
-              
-            </MenuItem>
-            <MenuItem>
-              <button className="m-2 inline-flex items-center gap-2 rounded-md bg-gray-800 py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-gray-700 data-[open]:bg-gray-700 data-[focus]:outline-1 data-[focus]:outline-white">
-                Delete
-              </button>
-            </MenuItem>
-           
-          </MenuItems>
-        </Menu></div>
-        : null
-      }
-
     </div>
   )
 
